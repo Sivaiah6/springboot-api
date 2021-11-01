@@ -34,7 +34,7 @@ public class ProAuthService {
 
     public String deleteMember(int id) {
         repository.deleteById(id);
-        return "Member removed !! " + id;
+        return "Member " +id+ " is removed !! ";
     }
 
     public ProAuth updateMember(ProAuth member) {
