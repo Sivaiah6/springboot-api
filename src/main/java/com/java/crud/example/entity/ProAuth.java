@@ -1,25 +1,28 @@
 package com.java.crud.example.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Collection;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "Member")
+
 public class ProAuth {
 
     @Id
     @GeneratedValue
     private int MemberId;
     private String name;
-    private int quantity;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy="proAuth", cascade = CascadeType.ALL)
+    private Collection<Member_Demo> member_demo;
 
 }

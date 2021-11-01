@@ -40,7 +40,7 @@ public class ProAuthService {
     public ProAuth updateMember(ProAuth member) {
         ProAuth existingMember = repository.findById(member.getMemberId()).orElse(null);
         existingMember.setName(member.getName());
-        existingMember.setQuantity(member.getQuantity());
+       // existingMember.setQuantity(member.getQuantity());
         //existingMember.setPrice(member.getPrice());
         return repository.save(existingMember);
     }
