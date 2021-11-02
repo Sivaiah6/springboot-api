@@ -1,6 +1,7 @@
 package com.java.crud.example.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @Entity
 @Table(name = "Member")
-
+@ApiModel(description="All details about the Member. ")
 public class ProAuth {
 
     @Id

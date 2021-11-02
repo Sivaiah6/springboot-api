@@ -4,17 +4,24 @@ import com.java.crud.example.controller.ProAuthController;
 import com.java.crud.example.entity.ProAuth;
 import com.java.crud.example.service.ProAuthService;
 import org.junit.Assert;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static org.powermock.api.mockito.PowerMockito.when;
 
 @SpringBootTest
 @RunWith(PowerMockRunner.class)
@@ -27,6 +34,17 @@ public class ProAuthControllerTest {
     private
     ProAuthService proAuthService;
 
+    @Before
+    public void init() throws Exception {
+        MockitoAnnotations.initMocks(this);
+        List<ProAuth> proAuths = new ArrayList<>();
+        ProAuth proAuth = new ProAuth();
+        proAuth.setMemberId(11);
+        proAuth.setName("Gowtham");
+        proAuths.add(proAuth);
+        when(proAuthService.getMembers()).thenReturn(proAuths);
+    }
+
     @Test
     public void getMemberByIdTest() throws Exception
     {
@@ -35,7 +53,7 @@ public class ProAuthControllerTest {
         ProAuth proAuth = new
                 ProAuth();
         proAuth.setMemberId(11);
-        PowerMockito.when(getProAuthService().getMemberById(11)).thenReturn(proAuth);
+        when(getProAuthService().getMemberById(11)).thenReturn(proAuth);
         setProAuthController(new ProAuthController(getProAuthService()));
         final ProAuth proAuthDto = proAuthService.getMemberById(11);
         Assert.assertNotNull(proAuthDto);
@@ -47,10 +65,13 @@ public class ProAuthControllerTest {
     {
         ProAuth proAuth = new
                 ProAuth();
-        proAuth.setName("Gowtham");
+        List<ProAuth> proAuthList = new ArrayList<>();
+        proAuthList.add(proAuth);
         ProAuthController proAuthControllerSpy = PowerMockito.spy(getProAuthController());
-        List<ProAuth> result = getProAuthService().getMembers();
-        Assert.assertEquals(result.size(), 0);
+        PowerMockito.doReturn(proAuthList).when(proAuthControllerSpy, "findAllMembers");
+        List<ProAuth> result = proAuthService.getMembers();
+        Assert.assertNotNull(result);
+        Assert.assertEquals(proAuthList, result);
     }
 
     public ProAuthController getProAuthController() {
