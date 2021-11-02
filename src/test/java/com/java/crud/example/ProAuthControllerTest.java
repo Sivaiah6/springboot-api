@@ -34,10 +34,11 @@ public class ProAuthControllerTest {
     private
     ProAuthService proAuthService;
 
+    List<ProAuth> proAuths = new ArrayList<>();
+
     @Before
     public void init() throws Exception {
         MockitoAnnotations.initMocks(this);
-        List<ProAuth> proAuths = new ArrayList<>();
         ProAuth proAuth = new ProAuth();
         proAuth.setMemberId(11);
         proAuth.setName("Gowtham");
@@ -63,15 +64,22 @@ public class ProAuthControllerTest {
     @Test
     public void getMembersTest() throws Exception
     {
-        ProAuth proAuth = new
-                ProAuth();
-        List<ProAuth> proAuthList = new ArrayList<>();
-        proAuthList.add(proAuth);
+       List<ProAuth> proAuthList = new ArrayList<>();
         ProAuthController proAuthControllerSpy = PowerMockito.spy(getProAuthController());
         PowerMockito.doReturn(proAuthList).when(proAuthControllerSpy, "findAllMembers");
         List<ProAuth> result = proAuthService.getMembers();
         Assert.assertNotNull(result);
-        Assert.assertEquals(proAuthList, result);
+        Assert.assertEquals(proAuths, result);
+    }
+
+    @Test
+    public void getMemberbyName() throws Exception {
+        ProAuth proAuth = new ProAuth();
+        ProAuthController proAuthControllerSpy = PowerMockito.spy(getProAuthController());
+        PowerMockito.doReturn(proAuth).when(proAuthControllerSpy, "findMemberByName","Gowtham");
+        ProAuth result = proAuthService.getMemberByName("Gowtham");
+       // Assert.assertNotNull(result);
+        Assert.assertEquals(proAuths.get(0), result);
     }
 
     public ProAuthController getProAuthController() {
