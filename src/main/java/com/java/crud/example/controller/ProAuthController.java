@@ -17,6 +17,9 @@ public class ProAuthController {
     @Autowired
     private ProAuthService service;
 
+    public ProAuthController(ProAuthService proAuthService) {
+    }
+
     @PostMapping("/addMember")
     public ProAuth addMember(@RequestBody ProAuth member) {
         return service.saveMember(member);
