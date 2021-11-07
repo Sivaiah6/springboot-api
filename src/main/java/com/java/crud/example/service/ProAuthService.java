@@ -1,7 +1,7 @@
 package com.java.crud.example.service;
 
 import com.java.crud.example.repository.ProAuthRepository;
-import com.java.crud.example.entity.ProAuth;
+import com.java.crud.example.entity.Member.ProAuth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

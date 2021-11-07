@@ -1,14 +1,12 @@
 package com.java.crud.example;
 
 import com.java.crud.example.controller.ProAuthController;
-import com.java.crud.example.entity.ProAuth;
+import com.java.crud.example.entity.Member.ProAuth;
 import com.java.crud.example.service.ProAuthService;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -19,7 +17,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static org.powermock.api.mockito.PowerMockito.when;
 

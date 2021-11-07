@@ -1,13 +1,11 @@
 package com.java.crud.example.controller;
 
 import com.java.crud.example.service.ProAuthService;
-import com.java.crud.example.entity.ProAuth;
+import com.java.crud.example.entity.Member.ProAuth;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -23,7 +21,7 @@ public class ProAuthController {
 
     @PostMapping("/addMember")
     @ApiOperation(value = "Save a Member")
-    public ProAuth addMember(@RequestBody ProAuth member) {
+    public ProAuth addMember(@Valid @RequestBody ProAuth member) {
         return service.saveMember(member);
     }
 
