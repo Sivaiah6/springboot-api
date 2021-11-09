@@ -4,17 +4,18 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "Member_Elig")
 @ApiModel(description = "All details about the Member Eligibility. ")
@@ -29,11 +30,11 @@ public class Member_Elig {
     private String mbr_mi_nm;
     private String mbr_lst_nm;
     @ApiModelProperty(notes = "Date should be in the format dd-MM-yyyy")
-    @Size(min = 8, message = "Date should be in the format dd-MM-yyyy")
+    //@Range(message = "Date should be in the format dd-MM-yyyy")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date mbr_elig_st_dt;
     @ApiModelProperty(notes = "Date should be in the format dd-MM-yyyy")
-    @Size(min = 8, message = "Date should be in the format dd-MM-yyyy")
+   // @Range(message = "Date should be in the format dd-MM-yyyy")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date mbr_elig_end_dt;
     private String subscbr_typ;
@@ -56,5 +57,19 @@ public class Member_Elig {
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "MemberId")
+    @ToString.Exclude
     private ProAuth proAuth;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Member_Elig that = (Member_Elig) o;
+        return mbr_elg_id != 0 && Objects.equals(mbr_elg_id, that.mbr_elg_id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

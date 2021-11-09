@@ -17,6 +17,7 @@ public class ProAuthController {
     private ProAuthService service;
 
     public ProAuthController(ProAuthService proAuthService) {
+        this.service = proAuthService;
     }
 
     @PostMapping("/addMember")

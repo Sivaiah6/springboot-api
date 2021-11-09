@@ -4,18 +4,18 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
-import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "PharmacyClaim")
 @ApiModel(description = "All details about the Pharmacy Claim. ")
@@ -34,7 +34,6 @@ public class PharmacyClaim {
     private String mbr_mi_nm ;
     private String mbr_lst_nm ;
     @ApiModelProperty(notes = "Date should be in the format dd-MM-yyyy")
-    @Size(min = 8, message = "Date should be in the format dd-MM-yyyy")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date mbr_dob ;
     private String mbr_gender ;
@@ -42,7 +41,6 @@ public class PharmacyClaim {
     private String prescr_dt ;
     private String refill_num ;
     @ApiModelProperty(notes = "Date should be in the format dd-MM-yyyy")
-    @Size(min = 8, message = "Date should be in the format dd-MM-yyyy")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date fill_dt ;
     private int ndc ;
@@ -56,7 +54,7 @@ public class PharmacyClaim {
     private String daw ;
     private String genric_brand ;
     private String pharm_type ;
-    private BigDecimal paid_amt ;
+    private String paid_amt ;
     private String pharm_name ;
     private String pharm_id ;
     private String pharm_addr_ln_1 ;
@@ -65,16 +63,30 @@ public class PharmacyClaim {
     private String pharm_city ;
     private String pharm_st ;
     private int pharm_zip ;
-    private int pharm_tel_ph ;
+    private Long pharm_tel_ph ;
     private String pharm_email ;
     private String prescr_prvd_id ;
-    private int prescr_prvd_npi ;
-    private int prescr_prvd_tin ;
+    private String prescr_prvd_npi ;
+    private String prescr_prvd_tin ;
     private String prescr_prvd_frst_nm ;
     private String prescr_prvd_lst_nm ;
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "claimId")
+    @ToString.Exclude
     private Claims claims;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        PharmacyClaim that = (PharmacyClaim) o;
+        return pharam_claim_id != 0 && Objects.equals(pharam_claim_id, that.pharam_claim_id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

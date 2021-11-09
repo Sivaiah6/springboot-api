@@ -2,6 +2,7 @@ package com.java.crud.example;
 
 import com.java.crud.example.controller.ProAuthController;
 import com.java.crud.example.entity.Member.ProAuth;
+import com.java.crud.example.repository.ProAuthRepository;
 import com.java.crud.example.service.ProAuthService;
 import org.junit.Assert;
 import org.junit.Before;
@@ -27,71 +28,94 @@ public class ProAuthControllerTest {
     @InjectMocks
     private
     ProAuthController proAuthController;
-    @Mock
+    @InjectMocks
     private
     ProAuthService proAuthService;
+    @InjectMocks
+    private ProAuth proAuth;
+    @Mock
+    private ProAuthRepository proAuthRepository;
 
     List<ProAuth> proAuths = new ArrayList<>();
 
     @Before
-    public void init() throws Exception {
+    public void init() {
         MockitoAnnotations.initMocks(this);
-        ProAuth proAuth = new ProAuth();
-        proAuth.setMemberId(11);
+       // ProAuth proAuth = new ProAuth();
+        proAuth.setMemberId("11");
         proAuth.setName("Gowtham");
         proAuths.add(proAuth);
         when(proAuthService.getMembers()).thenReturn(proAuths);
     }
 
     @Test
-    public void getMemberByIdTest() throws Exception
-    {
+    public void getMemberByIdTest() {
         //Creating a mock using the PowerMockito.mock
-        setProAuthService(PowerMockito.mock(ProAuthService.class));
-        ProAuth proAuth = new
-                ProAuth();
-        proAuth.setMemberId(11);
-        when(getProAuthService().getMemberById(11)).thenReturn(proAuth);
-        setProAuthController(new ProAuthController(getProAuthService()));
-        final ProAuth proAuthDto = proAuthService.getMemberById(11);
-        Assert.assertNotNull(proAuthDto);
-        Assert.assertEquals(11, proAuthDto.getMemberId());
+        ProAuthService mock =PowerMockito.mock(ProAuthService.class);
+
+        PowerMockito.when(mock.getMemberById(11)).thenReturn(proAuths.get(0));
+
+        ProAuthController proAuthController = new ProAuthController(mock);
+        Assert.assertEquals(proAuths.get(0), proAuthController.findMemberById(11));
     }
 
     @Test
-    public void getMembersTest() throws Exception
-    {
-       List<ProAuth> proAuthList = new ArrayList<>();
-        ProAuthController proAuthControllerSpy = PowerMockito.spy(getProAuthController());
-        PowerMockito.doReturn(proAuthList).when(proAuthControllerSpy, "findAllMembers");
-        List<ProAuth> result = proAuthService.getMembers();
-        Assert.assertNotNull(result);
-        Assert.assertEquals(proAuths, result);
+    public void getMembersTest() {
+        ProAuthService mock =PowerMockito.mock(ProAuthService.class);
+        PowerMockito.when(mock.getMembers()).thenReturn(proAuths);
+        ProAuthController proAuthController = new ProAuthController(mock);
+        Assert.assertEquals(proAuths, proAuthController.findAllMembers());
     }
 
     @Test
-    public void getMemberbyName() throws Exception {
-        ProAuth proAuth = new ProAuth();
-        ProAuthController proAuthControllerSpy = PowerMockito.spy(getProAuthController());
-        PowerMockito.doReturn(proAuth).when(proAuthControllerSpy, "findMemberByName","Gowtham");
-        ProAuth result = proAuthService.getMemberByName("Gowtham");
-       // Assert.assertNotNull(result);
-        Assert.assertEquals(proAuths.get(0), result);
+    public void getMemberbyNameTest() {
+        ProAuthService mock =PowerMockito.mock(ProAuthService.class);
+
+        PowerMockito.when(mock.getMemberByName("Gowtham")).thenReturn(proAuths.get(0));
+
+        ProAuthController proAuthController = new ProAuthController(mock);
+        Assert.assertEquals(proAuths.get(0), proAuthController.findMemberByName("Gowtham"));
     }
 
-    public ProAuthController getProAuthController() {
-        return proAuthController;
+    @Test
+    public void saveTestMember() {
+        ProAuthService mock =PowerMockito.mock(ProAuthService.class);
+
+        PowerMockito.when(mock.saveMember(proAuth)).thenReturn(proAuths.get(0));
+
+        ProAuthController proAuthController = new ProAuthController(mock);
+        Assert.assertEquals(proAuths.get(0), proAuthController.addMember(proAuth));
+    }
+    @Test
+    public void saveTestMembers() {
+        ProAuthService mock =PowerMockito.mock(ProAuthService.class);
+
+        PowerMockito.when(mock.saveMembers(proAuths)).thenReturn(proAuths);
+
+        ProAuthController proAuthController = new ProAuthController(mock);
+        Assert.assertEquals(proAuths, proAuthController.addMembers(proAuths));
     }
 
-    public void setProAuthController(ProAuthController proAuthController) {
-        this.proAuthController = proAuthController;
+    @Test
+    public void updateTestMember() {
+        ProAuthService mock =PowerMockito.mock(ProAuthService.class);
+
+        PowerMockito.when(mock.updateMember(proAuths.get(0))).thenReturn(proAuths.get(0));
+
+        ProAuthController proAuthController = new ProAuthController(mock);
+        Assert.assertEquals(proAuths.get(0), proAuthController.updateMember(proAuths.get(0)));
     }
 
-    public ProAuthService getProAuthService() {
-        return proAuthService;
+    @Test
+    public void deleteTestMember() {
+        ProAuthService mock =PowerMockito.mock(ProAuthService.class);
+
+        PowerMockito.when(mock.deleteMember(11)).thenReturn("Member 11 is removed !! ");
+
+        ProAuthController proAuthController = new ProAuthController(mock);
+        Assert.assertEquals("Member 11 is removed !! ", proAuthController.deleteMember(11));
     }
 
-    public void setProAuthService(ProAuthService proAuthService) {
-        this.proAuthService = proAuthService;
-    }
+
+
 }

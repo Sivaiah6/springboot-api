@@ -4,18 +4,18 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
-import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "FacilityClaim")
 @ApiModel(description = "All details about the Facility Claim. ")
@@ -29,11 +29,9 @@ public class FacilityClaim {
     private String claim_org_num;
     private String claim_type;
     @ApiModelProperty(notes = "Date should be in the format dd-MM-yyyy")
-    @Size(min = 8, message = "Date should be in the format dd-MM-yyyy")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date claim_serv_from_dt;
     @ApiModelProperty(notes = "Date should be in the format dd-MM-yyyy")
-    @Size(min = 8, message = "Date should be in the format dd-MM-yyyy")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date claim_serv_to_dt;
     private String claim_status;
@@ -46,8 +44,8 @@ public class FacilityClaim {
     private String mbr_gender;
     private String pcp_prvd_id;
     private String pcp_prvd_nm;
-    private int pcp_npi;
-    private int pcp_tin;
+    private String pcp_npi;
+    private String pcp_tin;
     private String pcp_prvd_spec;
     private String pcp_prvd_serv_st;
     private int pcp_prvd_serv_zip;
@@ -62,14 +60,13 @@ public class FacilityClaim {
     private String serv_prvd_id;
     private String serv_prvd_frst_nm;
     private String serv_prvd_lst_nm;
-    private int serv_prvd_tin;
-    private int serv_prvd_npi;
+    private String serv_prvd_tin;
+    private String serv_prvd_npi;
     private String serv_prvd_county;
     private String serv_prvd_state;
     private int serv_prvd_zip;
     private String serv_prvd_spec;
     @ApiModelProperty(notes = "Date should be in the format dd-MM-yyyy")
-    @Size(min = 8, message = "Date should be in the format dd-MM-yyyy")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date admit_dt;
     private String admit_typ;
@@ -81,11 +78,9 @@ public class FacilityClaim {
     private String proc_cd;
     private String proc_mod;
     @ApiModelProperty(notes = "Date should be in the format dd-MM-yyyy")
-    @Size(min = 8, message = "Date should be in the format dd-MM-yyyy")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date proc_dt;
     @ApiModelProperty(notes = "Date should be in the format dd-MM-yyyy")
-    @Size(min = 8, message = "Date should be in the format dd-MM-yyyy")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date dischrg_dt;
     private String dischrg_status;
@@ -96,17 +91,16 @@ public class FacilityClaim {
     private String rev_cd;
     private String drg_cd;
     private String cap_ffs;
-    private BigDecimal claim_amt;
-    private BigDecimal copay_amt;
-    private BigDecimal coinsu_amt;
-    private BigDecimal ded_amt;
-    private BigDecimal allow_amt;
-    private BigDecimal paid_amt;
+    private String claim_amt;
+    private String copay_amt;
+    private String coinsu_amt;
+    private String ded_amt;
+    private String allow_amt;
+    private String paid_amt;
     private String bill_type;
     private String type_of_visit;
     private String in_out_patient;
     @ApiModelProperty(notes = "Date should be in the format dd-MM-yyyy")
-    @Size(min = 8, message = "Date should be in the format dd-MM-yyyy")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date paid_date;
     private String pay_method;
@@ -114,6 +108,19 @@ public class FacilityClaim {
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "claimId")
+    @ToString.Exclude
     private Claims claims;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        FacilityClaim that = (FacilityClaim) o;
+        return faclty_claim_id != 0 && Objects.equals(faclty_claim_id, that.faclty_claim_id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

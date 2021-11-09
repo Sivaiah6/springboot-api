@@ -1,24 +1,26 @@
 package com.java.crud.example.entity.Provider;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.*;
+import org.hibernate.Hibernate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "Provider_Demo")
 @ApiModel(description = "All details about the Provider Demo. ")
 public class Provider_Demo {
     @Id
+    @GeneratedValue
     @Column(name = "id", nullable = false)
     private Long id;
 
@@ -27,7 +29,7 @@ public class Provider_Demo {
     private String prvd_frst_nm;
     private String prvd_mi_nm;
     private String prvd_lst_nm;
-    private int prvd_ssn;
+    private Long prvd_ssn;
     private String prvd_tin;
     private String prvd_npi;
     private String prvd_serv_addr_ln_1;
@@ -36,7 +38,7 @@ public class Provider_Demo {
     private String prvd_serv_city;
     private String prvd_serv_st;
     private int prvd_serv_zip;
-    private int prvd_serv_tel_ph;
+    private Long prvd_serv_tel_ph;
     private String prvd_serv_email;
     private String prvd_bilg_addr_ln_1;
     private String prvd_bilg_addr_ln_2;
@@ -44,7 +46,7 @@ public class Provider_Demo {
     private String prvd_bilg_city;
     private String prvd_bilg_st;
     private int prvd_bilg_zip;
-    private int prvd_bilg_tel_ph;
+    private Long prvd_bilg_tel_ph;
     private String prvd_bilg_email;
     private String prvd_spec_1;
     private String prvd_spec_2;
@@ -53,10 +55,22 @@ public class Provider_Demo {
     private String prvd_ntwk_name;
     private String inntwk_outntwk;
     private String prvd_par_npar;
+    @ApiModelProperty(notes = "Date should be in the format dd-MM-yyyy")
+    // @Range(message = "Date should be in the format dd-MM-yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date prvd_eff_dt;
+    @ApiModelProperty(notes = "Date should be in the format dd-MM-yyyy")
+    // @Range(message = "Date should be in the format dd-MM-yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date prvd_end_dt;
     private String prvd_contr_typ;
+    @ApiModelProperty(notes = "Date should be in the format dd-MM-yyyy")
+    // @Range(message = "Date should be in the format dd-MM-yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date prvd_ntwk_eff_dt;
+    @ApiModelProperty(notes = "Date should be in the format dd-MM-yyyy")
+    // @Range(message = "Date should be in the format dd-MM-yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date prvd_ntwk_end_dt;
 
     public Long getId() {
@@ -65,5 +79,18 @@ public class Provider_Demo {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Provider_Demo that = (Provider_Demo) o;
+        return id != null && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }
