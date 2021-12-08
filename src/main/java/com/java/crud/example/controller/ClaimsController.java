@@ -13,8 +13,8 @@ import java.util.List;
 public class ClaimsController {
     @Autowired
     private ClaimsService service;
-
     public ClaimsController(ClaimsService claimsService) {
+        this.service = claimsService;
     }
 
     @PostMapping("/addClaim")

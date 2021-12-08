@@ -15,6 +15,7 @@ public class ProviderController {
     private ProviderService service;
 
     public ProviderController(ProviderService providerService) {
+        this.service = providerService;
     }
 
     @PostMapping("/addProvider")

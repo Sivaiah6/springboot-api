@@ -15,6 +15,7 @@ public class DataController {
     private DataService service;
 
     public DataController(DataService dataService) {
+        this.service = dataService;
     }
 
     @PostMapping("/addLabData")

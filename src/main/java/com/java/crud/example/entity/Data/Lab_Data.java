@@ -22,6 +22,7 @@ import java.util.Date;
 @Table(name = "Lab_Data")
 @ApiModel(description="All details about the Lab Data. ")
 public class Lab_Data {
+    public static Object set;
     @Id
     @GeneratedValue
     private int Id;

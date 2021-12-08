@@ -7,8 +7,7 @@ import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 @Getter
 @Setter
@@ -18,7 +17,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "Provider_Demo")
 @ApiModel(description = "All details about the Provider Demo. ")
-public class Provider_Demo {
+public class Provider_Demo implements List<Provider_Demo> {
     @Id
     @GeneratedValue
     @Column(name = "id", nullable = false)
@@ -82,6 +81,76 @@ public class Provider_Demo {
     }
 
     @Override
+    public int size() {
+        return 0;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
+
+    @Override
+    public boolean contains(Object o) {
+        return false;
+    }
+
+    @Override
+    public Iterator<Provider_Demo> iterator() {
+        return null;
+    }
+
+    @Override
+    public Object[] toArray() {
+        return new Object[0];
+    }
+
+    @Override
+    public <T> T[] toArray(T[] a) {
+        return null;
+    }
+
+    @Override
+    public boolean add(Provider_Demo provider_demo) {
+        return false;
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        return false;
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
+        return false;
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends Provider_Demo> c) {
+        return false;
+    }
+
+    @Override
+    public boolean addAll(int index, Collection<? extends Provider_Demo> c) {
+        return false;
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
+        return false;
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        return false;
+    }
+
+    @Override
+    public void clear() {
+
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
@@ -92,5 +161,50 @@ public class Provider_Demo {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    @Override
+    public Provider_Demo get(int index) {
+        return null;
+    }
+
+    @Override
+    public Provider_Demo set(int index, Provider_Demo element) {
+        return null;
+    }
+
+    @Override
+    public void add(int index, Provider_Demo element) {
+
+    }
+
+    @Override
+    public Provider_Demo remove(int index) {
+        return null;
+    }
+
+    @Override
+    public int indexOf(Object o) {
+        return 0;
+    }
+
+    @Override
+    public int lastIndexOf(Object o) {
+        return 0;
+    }
+
+    @Override
+    public ListIterator<Provider_Demo> listIterator() {
+        return null;
+    }
+
+    @Override
+    public ListIterator<Provider_Demo> listIterator(int index) {
+        return null;
+    }
+
+    @Override
+    public List<Provider_Demo> subList(int fromIndex, int toIndex) {
+        return null;
     }
 }
